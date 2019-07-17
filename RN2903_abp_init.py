@@ -1,4 +1,4 @@
-"""RN2903 on ABP LoRa Wan Confi6 iguration"""
+"""RN2903 on ABP LoRa WAN Configuration"""
 """Authors: Rubens Fernandes and Arlley Gabriel Diaz"""
 """Date: 16/07/2019"""
 
@@ -8,6 +8,7 @@ import time
 
 """ Set serial communication parameters """
 port = "/dev/ttyACM0"
+#port = raw_input("Set the serial port that the LoRa module is inserted: ")
 baudrate = 57600
 timeout = 5
 parity = "N"
@@ -49,6 +50,7 @@ ch_drrange = raw_input("Set the channel to modify data rate range: ")
 print('command: mac set ch drrange %s 0 3' % (ch_drrange))
 ser.write(b'mac set ch drrange %s 0 3\r\n' % (ch_drrange))
 print(str(ser.readline()))
+
 """ ------------------------------------------------ """
 
 """ Setting the next power transmission, according to RN2903 specification """
@@ -58,7 +60,9 @@ ser.write(b'mac set pwridx %s\r\n' % (pwr))
 print(str(ser.readline()))
 """ ---------------------------------------------------------------------------- """
 
+
 """ Setting device address in abp LoRa network """
+
 devaddr = raw_input("Set the device address: ")
 print('command: mac set devaddr %s' % (devaddr))
 ser.write(b'mac set devaddr %s\r\n' % (devaddr))
@@ -79,6 +83,7 @@ ser.write(b'mac set appskey %s\r\n' % (appskey))
 print(str(ser.readline()))
 """ ---------------------------------------------------------- """
 
+
 """ Setting only one channel to communicate with a single channel gateway (CH 0 - 902.3 MHz) """
 for x in range (1, 72):
 	print('command: mac set ch status %s off' % str(x))
@@ -89,15 +94,18 @@ ser.write(b'mac set ch status 0 on\r\n')
 print(str(ser.readline()))
 """ ---------------------------------------------------------------------------------------- """
 
+
 """ Save LoRa Wan settings and specifications on RN2903' EEPROM """
 print('command: mac save')
 ser.write(b'mac save\r\n')
+print(str(ser.readline()))
 print(str(ser.readline()))
 """ ----------------------------------------------------------- """
 
 """ Join module on ABP configuration """
 print('command: mac join abp')
 ser.write(b'mac join abp\r\n')
+print(str(ser.readline()))
 print(str(ser.readline()))
 """ -------------------------------- """
 
